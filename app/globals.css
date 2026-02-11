@@ -99,6 +99,19 @@ body {
   margin: 0 auto 3rem;    /* centers it and adds space below */
   text-align: center;
 }
+/* HERO TAGLINE — bigger, darker, bolder, same alignment */
+.hero-tagline {
+  font-size: 2rem !important;     /* bigger */
+  font-weight: 700 !important;    /* bolder */
+  color: #100953 !important;      /* darker */
+  margin: 0 !important;
+  line-height: 1.15 !important;   /* keeps alignment tight */
+  padding-top: 0.2rem !important; /* keeps alignment with first benefit row */
+}
+
+
+
+
 
 .hero-header .hero-title {
   font-size: 2.4rem;

@@ -1,4 +1,21 @@
+"use client";
+import { useRef } from "react";
+
 export default function Home() {
+  const fileInputRef = useRef(null);
+
+  function openFilePicker() {
+    fileInputRef.current?.click();
+  }
+
+  function handleFileSelect(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // TODO: run your PDF → HTML conversion here
+    console.log("Selected file:", file);
+  }
+
   return (
     <main className="homepage">
 
@@ -8,7 +25,7 @@ export default function Home() {
         {/* CENTERED HEADER ABOVE BOTH COLUMNS */}
         <div className="hero-header">
           <h1 className="hero-title">
-            Elevate your restaurant’s online presence
+             Convert PDF menus to HTML
           </h1>
         </div>
 
@@ -18,18 +35,37 @@ export default function Home() {
           <div className="hero-left">
 
             {/* TAGLINE ALIGNED WITH FIRST BENEFIT ROW */}
-            <h2 className="hero-tagline">
-              Convert PDF menus to HTML
-            </h2>
+            <p className="hero-tagline">
+              Elevate your online menu presence. 
+            
+            </p>
+            <p className="hero-tagline">
+              Increase visibility. Increase views.
+            </p>
 
             <p className="hero-subtitle">
               Fast, accessible, mobile‑friendly menus that help customers discover dishes,
               improve SEO, and load instantly on any device.
             </p>
 
-            <form className="upload-box" aria-label="Upload PDF Menu">
-              <input type="file" className="file-input" aria-label="Choose PDF file" />
-              <button className="upload-btn">Upload PDF Menu</button>
+            {/* UPDATED UPLOAD SECTION — OPTION B */}
+            <form className="upload-box" onSubmit={(e) => e.preventDefault()}>
+              <button
+                type="button"
+                className="upload-btn"
+                onClick={openFilePicker}
+              >
+                Generate HTML Menu
+              </button>
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="file-input"
+                style={{ display: "none" }}
+                accept="application/pdf"
+                onChange={handleFileSelect}
+              />
             </form>
           </div>
 
@@ -82,4 +118,3 @@ export default function Home() {
     </main>
   );
 }
-
