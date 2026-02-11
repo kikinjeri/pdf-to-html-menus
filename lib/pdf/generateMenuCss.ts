@@ -1,4 +1,8 @@
-export function generateMenuCss(): string {
+export function generateMenuCss(
+  primary: string = "#111",
+  secondary: string = "#ffffff",
+  text: string = "#111"
+): string {
   return `
   /* ------------------------------
      Classic Bistro + Minimal Menu
@@ -9,8 +13,8 @@ export function generateMenuCss(): string {
     max-width: 760px;
     margin: 0 auto;
     padding: 32px 20px;
-    background: #ffffff;
-    color: #111;
+    background: ${secondary};
+    color: ${text};
     font-family: "Georgia", "Times New Roman", serif;
     line-height: 1.6;
   }
@@ -22,6 +26,7 @@ export function generateMenuCss(): string {
     font-weight: 700;
     margin-bottom: 2rem;
     letter-spacing: 0.5px;
+    color: ${primary};
   }
 
   /* Section Titles */
@@ -31,9 +36,10 @@ export function generateMenuCss(): string {
     margin-top: 2.2rem;
     margin-bottom: 0.8rem;
     padding-bottom: 6px;
-    border-bottom: 2px solid #111;
+    border-bottom: 2px solid ${primary};
     text-transform: uppercase;
     letter-spacing: 1px;
+    color: ${primary};
   }
 
   /* Menu Items */
@@ -47,11 +53,12 @@ export function generateMenuCss(): string {
 
   .menu-item-name {
     font-weight: 500;
+    color: ${primary};
   }
 
   .menu-item-price {
     font-weight: 600;
-    color: #111;
+    color: ${primary};
     margin-left: 12px;
     white-space: nowrap;
   }
@@ -59,7 +66,7 @@ export function generateMenuCss(): string {
   /* Optional descriptions */
   .menu-item-description {
     font-size: 0.95rem;
-    color: #444;
+    color: ${text === "#111" ? "#444" : text};
     margin-top: 2px;
     margin-bottom: 6px;
   }
@@ -68,7 +75,7 @@ export function generateMenuCss(): string {
   .menu-divider {
     margin: 2rem 0;
     border: none;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid ${primary}33;
   }
 
   /* Responsive */
@@ -92,4 +99,3 @@ export function generateMenuCss(): string {
   }
   `;
 }
-

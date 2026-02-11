@@ -1,43 +1,63 @@
-import { NextRequest, NextResponse } from "next/server"
+import { supabase } from "@/lib/supabase"
 import { extractText } from "@/lib/pdf/extractText"
 import { detectSections } from "@/lib/pdf/detectSections"
 import { generateHtml } from "@/lib/pdf/generateHtml"
 import { generateMenuCss } from "@/lib/pdf/generateMenuCss"
 import { generateSchema } from "@/lib/pdf/generateSchema"
 
-export async function POST(req: NextRequest) {
-  try {
-    const formData = await req.formData()
-    const file = formData.get("file") as File
+export async function POST(req: Request) {
+  const formData = await req.formData()
+  const restaurantId = formData.get("restaurantId") as string
+  const pdfFile = formData.get("file") as File
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 })
-    }
+  if (!restaurantId || !pdfFile) {
+    return new Response("Missing restaurantId or file", { status: 400 })
+  }
 
-    const buffer = Buffer.from(await file.arrayBuffer())
+  // 1. Fetch restaurant branding
+  const { data: restaurant } = await supabase
+    .from("restaurants")
+    .select("*")
+    .eq("id", restaurantId)
+    .single()
 
-    // 1. Extract raw text from PDF
-    const rawText = await extractText(buffer)
+  if (!restaurant) {
+    return new Response("Restaurant not found", { status: 404 })
+  }
 
-    // 2. Convert raw text → structured menu
-    const parsedMenu = detectSections(rawText)
+  // 2. Upload PDF
+  const pdfBuffer = Buffer.from(await pdfFile.arrayBuffer())
+  const pdfPath = `menus/${restaurantId}/${crypto.randomUUID()}.pdf`
 
-    // 3. Generate HTML, CSS, Schema
-    const html = generateHtml(parsedMenu)
-    const css = generateMenuCss(parsedMenu)
-    const schema = generateSchema(parsedMenu)
+  await supabase.storage.from("menus").upload(pdfPath, pdfBuffer, {
+    contentType: "application/pdf",
+  })
 
-    return NextResponse.json({
+  // 3. Run pipeline
+  const rawText = await extractText(pdfBuffer)
+  const parsedMenu = detectSections(rawText)
+  const html = generateHtml(parsedMenu)
+
+  const css = generateMenuCss(
+    restaurant.primary_color,
+    restaurant.secondary_color,
+    restaurant.text_color
+  )
+
+  const schema = generateSchema(parsedMenu)
+
+  // 4. Save menu
+  const { data: menu } = await supabase
+    .from("menus")
+    .insert({
+      restaurant_id: restaurantId,
       html,
       css,
       schema,
-      parsedMenu
+      pdf_path: pdfPath,
     })
-  } catch (err) {
-    console.error("PDF conversion error:", err)
-    return NextResponse.json(
-      { error: "Failed to process PDF" },
-      { status: 500 }
-    )
-  }
+    .select()
+    .single()
+
+  return Response.json(menu)
 }
