@@ -1,15 +1,16 @@
-@import "tailwindcss";
+/* -------------------------------------------------------
+   Tailwind (required)
+------------------------------------------------------- */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* -------------------------------------------------------
+   Theme Variables
+------------------------------------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +20,311 @@
   }
 }
 
+/* -------------------------------------------------------
+   Global Reset & Base Styles
+------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #f8f9fb;
+  color: #1a1a1a;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* -------------------------------------------------------
+   Homepage Layout
+------------------------------------------------------- */
+.home-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* -------------------------------------------------------
+   Hero Section
+------------------------------------------------------- */
+.hero {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #111;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* -------------------------------------------------------
+   Upload Section
+------------------------------------------------------- */
+.upload-section {
+  background: #fff;
+  padding: 30px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  margin-top: 40px;
+}
+
+/* -------------------------------------------------------
+   Upload Form
+------------------------------------------------------- */
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.file-input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.upload-button {
+  background: #0070f3;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.upload-button:hover {
+  background: #0059c9;
+}
+
+.upload-button:disabled {
+  background: #9bbcf3;
+  cursor: not-allowed;
+}
+
+/* -------------------------------------------------------
+   Error Text
+------------------------------------------------------- */
+.error-text {
+  color: #d33;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+/* -------------------------------------------------------
+   Result Box
+------------------------------------------------------- */
+.result-box {
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #fdfdfd;
+  border: 1px solid #e5e5e5;
+}
+
+.result-box h2 {
+  margin-top: 0;
+}
+
+.code-block {
+  background: #f3f3f3;
+  padding: 14px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* -------------------------------------------------------
+   Dashboard Layout
+------------------------------------------------------- */
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fa;
+}
+
+/* Sidebar */
+.dashboard-sidebar {
+  width: 240px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-link {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: #f0f0f0;
+}
+
+.sidebar-link.active {
+  background: #0070f3;
+  color: white;
+}
+
+/* Main Content */
+.dashboard-main {
+  flex: 1;
+  padding: 40px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.dashboard-title {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.new-menu-button {
+  background: #0070f3;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.new-menu-button:hover {
+  background: #0059c9;
+}
+
+/* Section */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Menu Cards */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.menu-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+}
+
+.menu-card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.menu-card-text {
+  color: #666;
+  margin: 10px 0 20px;
+}
+
+.menu-card-button {
+  background: #0070f3;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.menu-card-button:hover {
+  background: #0059c9;
+}
+
+
+/* -------------------------------------------------------
+   History Table
+------------------------------------------------------- */
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+
+.history-table th,
+.history-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.history-table th {
+  background: #f8f9fb;
+  font-weight: 600;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.history-btn {
+  background: #0070f3;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+}
+
+.history-btn:hover {
+  background: #0059c9;
+}
+
+
+/* -------------------------------------------------------
+   Footer
+------------------------------------------------------- */
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  color: #777;
+  font-size: 0.9rem;
 }
